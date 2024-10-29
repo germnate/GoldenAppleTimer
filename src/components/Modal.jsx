@@ -8,7 +8,10 @@ export function Modal({ isOpen, close, children, header }) {
     return (
         <div onClick={onClose} className={`backdrop blur${isOpen ? '' : ' translate-top'}`}>
             <div className='modal'>
-                <h1>{header}</h1>
+                <div className='modal-header'>
+                    <h1>{header}</h1>
+                    <div onClick={onClose}>&times;</div>
+                </div>
                 <div className='modal-content'>
                     {children}
                 </div>
