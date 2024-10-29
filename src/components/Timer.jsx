@@ -23,7 +23,6 @@ export function Timer(props) {
         let min = minutes;
         let sec = seconds;
         const interval = setInterval(() => {
-            console.log(interval);
             if (min === 0 && sec === 0) return clearInterval(interval);
             sec = sec - 1;
             if (sec < 0) {

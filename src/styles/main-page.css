@@ -4,11 +4,57 @@
     max-width: 800px;
 }
 
+.backdrop {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(0px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 300ms;
+}
+
+.blur {
+    backdrop-filter: blur(5px);
+}
+
+.translate-top {
+    transform: translateY(-100vh);
+}
+
+.modal {
+    position: absolute;
+    background-color: var(--secondary-color);
+    height: 50%;
+    width: 75%;
+    min-width: 287px;
+    max-width: 600px;
+    border-radius: 1rem;
+}
+
+.modal>h1 {
+    padding: 1rem 2rem;
+    margin-top: 0;
+    border-radius: 1rem 1rem 0 0;
+    background-color: rgb(38, 41, 51);
+    border-bottom: 1px solid rgb(63, 56, 56);
+}
+
+.modal-content {
+    padding: 0 2rem;
+}
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 0.5rem;
 }
 
 .actions button {

@@ -1,0 +1,23 @@
+.task-manager {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid rgb(125, 118, 118, 0.5);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 1rem;
+    box-shadow: -5px 0 0px 1px black;
+}
+
+.task input[type='text'] {
+    flex-grow: 1;
+    background-color: transparent;
+    color: rgb(214, 204, 204);
+    padding: 0.5rem 1rem;
+    border: none;
+}
