@@ -49,6 +49,14 @@
     border-bottom: 1px solid rgb(63, 56, 56);
 }
 
+.modal-header .close {
+    border: none;
+    height: 30px;
+    width: 30px;
+    font-size: 2em;
+    line-height: 0
+}
+
 .modal-content {
     padding: 0 2rem;
 }

@@ -10,7 +10,7 @@ export function Modal({ isOpen, close, children, header }) {
             <div className='modal'>
                 <div className='modal-header'>
                     <h1>{header}</h1>
-                    <div onClick={onClose}>&times;</div>
+                    <button className='close' onClick={onClose}>&times;</button>
                 </div>
                 <div className='modal-content'>
                     {children}

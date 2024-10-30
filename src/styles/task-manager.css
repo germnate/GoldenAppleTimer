@@ -15,7 +15,11 @@
     box-shadow: -5px 0 0px 1px black;
 }
 
-.task input[type='text'],
+.task {
+    cursor: grab;
+}
+
+.task span,
 .add-task input {
     flex-grow: 1;
     background-color: transparent;
@@ -24,8 +28,11 @@
     border: none;
 }
 
+
 .task button {
     border: none;
+    height: 30px;
+    width: 30px;
 }
 
 .add-task input {
