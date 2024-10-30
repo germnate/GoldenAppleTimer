@@ -34,6 +34,7 @@ export function TaskManager() {
         const index = tasks.findIndex(task => task.id === id)
         const splicedTasks = tasks.toSpliced(index, 1)
         setTasks(splicedTasks)
+        setEditingIndex(-1)
         saveToLocalStorage(splicedTasks);
     }
 
@@ -48,10 +49,27 @@ export function TaskManager() {
 
     function toggleChecked(id) {
         setTasks(prevTasks => {
-            return prevTasks.map((each) => {
+            const newTasks = prevTasks.map((each, index) => {
                 if (each.id !== id) return each;
+                if (each.active && !each.checked) { // "not checked" because this represents going from unchecked to checked
+                    if (index < prevTasks.length - 1) prevTasks[index + 1].active = true;
+                    return { ...each, checked: !each.checked, active: false }
+                }
                 return { ...each, checked: !each.checked }
             })
+            saveToLocalStorage(newTasks);
+            return newTasks;
+        })
+    }
+
+    function setActive(id) {
+        setTasks(prevTasks => {
+            const newTasks = prevTasks.map((each) => {
+                if (each.id !== id) return { ...each, active: false };
+                return { ...each, active: true }
+            })
+            saveToLocalStorage(newTasks)
+            return newTasks
         })
     }
 
@@ -90,6 +108,7 @@ export function TaskManager() {
                         updateIndex={updateIndex}
                         setDraggingIndex={setDraggingIndex}
                         setDraggingTask={setDraggingTask}
+                        setActive={setActive}
                         edit={edit}
                         index={index}
                     />

@@ -17,6 +17,10 @@
     box-shadow: -5px 0 0px 1px black;
 }
 
+.task.active {
+    border: 1px solid var(--primary-color)
+}
+
 .edit-task {
     flex-direction: column;
 }

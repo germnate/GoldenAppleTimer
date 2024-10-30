@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 
-export function Task({ task, edit, toggleChecked, setDraggingIndex, setDraggingTask, index }) {
+export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, setDraggingTask, index }) {
     const [grabbing, setGrabbing] = useState(false);
+    const checkBoxRef = useRef(null);
 
     function onToggleChecked() {
         toggleChecked(task.id)
@@ -47,11 +48,21 @@ export function Task({ task, edit, toggleChecked, setDraggingIndex, setDraggingT
         })
     }
 
-    const classNames = ['task draggable'].concat(grabbing ? 'grabbing opacity-35' : 'grab').join(' ')
+    function onSetActive(e) {
+        if (e.target === checkBoxRef.current) return;
+        console.log('set active')
+        setActive(task.id)
+    }
+
+    const classNames = ['task draggable']
+        .concat(grabbing ? 'grabbing opacity-35' : 'grab')
+        .concat(task.active ? 'active' : [])
+        .join(' ')
 
     return (
         <div
             className={classNames}
+            onClick={onSetActive}
             onDragStart={grab}
             onDragEnd={drop}
             onDragOver={onDragOver}
@@ -60,7 +71,7 @@ export function Task({ task, edit, toggleChecked, setDraggingIndex, setDraggingT
             onTouchMove={onTouchMove}
             draggable
         >
-            <input type='checkbox' checked={task.checked} onChange={onToggleChecked} />
+            <input ref={checkBoxRef} type='checkbox' checked={task.checked} onChange={onToggleChecked} />
             <span className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
             <button className='vellip' onClick={onEdit}>&#8942;</button>
         </div>
