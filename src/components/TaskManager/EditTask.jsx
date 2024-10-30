@@ -12,7 +12,7 @@ export function EditTask({ task, removeTask, changeTaskName, save }) {
     }
 
     function onSave() {
-        save(task.id);
+        save();
     }
 
     function handleKeyDown(e) {

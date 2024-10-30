@@ -8,7 +8,7 @@ export function Task({ task, edit, toggleChecked, setDraggingIndex, setDraggingT
     }
 
     function onEdit() {
-        edit(task.id);
+        edit(index);
     }
 
     function grab(e) {

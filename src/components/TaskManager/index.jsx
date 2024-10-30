@@ -5,21 +5,36 @@ import { EditTask } from "./EditTask";
 
 export function TaskManager() {
     const [tasks, setTasks] = useState([])
+    const [editingIndex, setEditingIndex] = useState(-1);
     const [draggingIndex, setDraggingIndex] = useState(null);
     const [draggingTask, setDraggingTask] = useState(null);
+
+    useEffect(() => {
+        const items = localStorage.getItem('tasks')
+        if (!items) return;
+        setTasks(JSON.parse(items))
+    }, [])
 
     useEffect(() => {
         if (!draggingTask) return;
         updateIndex(draggingTask?.id, draggingIndex);
     }, [draggingIndex])
 
+    function saveToLocalStorage(items) {
+        localStorage.setItem('tasks', JSON.stringify(items || tasks))
+    }
+
     function addTask(task) {
-        setTasks([...tasks, task])
+        const updatedTasks = [...tasks, task]
+        setTasks(updatedTasks)
+        saveToLocalStorage(updatedTasks);
     }
 
     function removeTask(id) {
         const index = tasks.findIndex(task => task.id === id)
-        setTasks(tasks.toSpliced(index, 1))
+        const splicedTasks = tasks.toSpliced(index, 1)
+        setTasks(splicedTasks)
+        saveToLocalStorage(splicedTasks);
     }
 
     function changeTaskName(id, name) {
@@ -40,23 +55,13 @@ export function TaskManager() {
         })
     }
 
-    function edit(id) {
-
-        setTasks(prevTasks => {
-            return prevTasks.map((each) => {
-                if (each.id !== id) return { ...each, editing: false };
-                return { ...each, editing: true }
-            })
-        })
+    function edit(index) {
+        setEditingIndex(index);
     }
 
-    function save(id) {
-        setTasks(prevTasks => {
-            return prevTasks.map((each) => {
-                if (each.id !== id) return { ...each, editing: false };
-                return { ...each, editing: false }
-            })
-        })
+    function saveEdit() {
+        setEditingIndex(-1);
+        saveToLocalStorage();
     }
 
     function updateIndex(id, newIndex) {
@@ -70,13 +75,13 @@ export function TaskManager() {
     return (
         <div className='task-manager'>
             {tasks.map((task, index) => {
-                return task.editing
+                return index === editingIndex
                     ? <EditTask
                         key={task.id}
                         task={task}
                         removeTask={removeTask}
                         changeTaskName={changeTaskName}
-                        save={save}
+                        save={saveEdit}
                     />
                     : <Task
                         key={task.id}
