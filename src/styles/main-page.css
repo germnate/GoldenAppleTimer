@@ -30,11 +30,12 @@
 .modal {
     position: absolute;
     background-color: var(--secondary-color);
-    height: 50%;
+    max-height: 80%;
     width: 96%;
     min-width: 300px;
     max-width: 600px;
     border-radius: 1rem;
+    overflow-y: scroll;
 }
 
 .modal-header {
@@ -51,10 +52,7 @@
 
 .modal-header .close {
     border: none;
-    height: 30px;
-    width: 30px;
     font-size: 2em;
-    line-height: 0
 }
 
 .modal-content {

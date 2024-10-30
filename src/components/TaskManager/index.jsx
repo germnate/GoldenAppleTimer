@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddTask } from "./AddTask";
 import { Task } from "./Task";
 
 export function TaskManager() {
     const [tasks, setTasks] = useState([])
+    const [draggingIndex, setDraggingIndex] = useState(null);
+    const [draggingTask, setDraggingTask] = useState(null);
+
+    useEffect(() => {
+        if (!draggingTask) return;
+        updateIndex(draggingTask?.id, draggingIndex);
+    }, [draggingIndex])
 
     function addTask(task) {
         setTasks([...tasks, task])
@@ -32,15 +39,27 @@ export function TaskManager() {
         })
     }
 
+    function updateIndex(id, newIndex) {
+        setTasks(prev => {
+            const oldIndex = prev.findIndex(task => task.id === id)
+            const item = prev[oldIndex];
+            return prev.toSpliced(oldIndex, 1).toSpliced(newIndex, 0, item)
+        })
+    }
+
     return (
         <div className='task-manager'>
-            {tasks.map(task => {
+            {tasks.map((task, index) => {
                 return <Task
                     key={task.id}
                     task={task}
                     removeTask={removeTask}
                     changeTaskName={changeTaskName}
                     toggleChecked={toggleChecked}
+                    updateIndex={updateIndex}
+                    setDraggingIndex={setDraggingIndex}
+                    setDraggingTask={setDraggingTask}
+                    index={index}
                 />
             })}
             <AddTask addTask={addTask} />

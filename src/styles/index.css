@@ -51,3 +51,7 @@ button:focus-visible {
 .strikethrough {
     text-decoration: line-through;
 }
+
+.hidden {
+    opacity: 0%;
+}

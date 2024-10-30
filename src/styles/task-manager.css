@@ -15,8 +15,12 @@
     box-shadow: -5px 0 0px 1px black;
 }
 
-.task {
+.grab {
     cursor: grab;
+}
+
+.grabbing {
+    cursor: grabbing;
 }
 
 .task span,
