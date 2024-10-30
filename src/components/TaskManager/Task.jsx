@@ -28,13 +28,40 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked, setDragg
     }
 
     function onDragOver(e) {
+        e.preventDefault();
         setDraggingIndex(index);
     }
 
-    const classNames = ['task'].concat(grabbing ? 'grabbing hidden' : 'grab').join(' ')
+    function onTouchMove(e) {
+        const touch = e.touches[0];
+        draggedInRange(touch);
+    }
+
+    function draggedInRange(event) {
+        const elements = document.querySelectorAll('.draggable')
+        elements.forEach((element, intersectedIndex) => {
+            const rect = element.getBoundingClientRect();
+            const isInXRange = event.clientX >= rect.left && event.clientX <= rect.right;
+            const isInYRange = event.clientY >= rect.top && event.clientY <= rect.bottom;
+            if (isInXRange && isInYRange) {
+                setDraggingIndex(intersectedIndex)
+            }
+        })
+    }
+
+    const classNames = ['task draggable'].concat(grabbing ? 'grabbing opacity-35' : 'grab').join(' ')
 
     return (
-        <div className={classNames} onDragStart={grab} onDragEnd={drop} onDragOver={onDragOver} draggable>
+        <div
+            className={classNames}
+            onDragStart={grab}
+            onDragEnd={drop}
+            onDragOver={onDragOver}
+            onTouchStart={grab}
+            onTouchEnd={drop}
+            onTouchMove={onTouchMove}
+            draggable
+        >
             <input type='checkbox' checked={task.checked} onChange={onToggleChecked} />
             <span className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
             <button onClick={onRemoveTask}>&times;</button>

@@ -52,6 +52,6 @@ button:focus-visible {
     text-decoration: line-through;
 }
 
-.hidden {
-    opacity: 0%;
+.opacity-35 {
+    opacity: 35%;
 }
