@@ -1,0 +1,23 @@
+.study-switch {
+    text-align: center;
+}
+
+.study-switch button {
+    border-radius: 0;
+    padding: 0.5rem 1rem;
+    color: white;
+}
+
+.study-switch :first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.study-switch :last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+@media (min-width: 400px) {
+    .study-switch button {
+        padding: 1rem 2rem;
+    }
+}

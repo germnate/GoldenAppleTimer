@@ -62,3 +62,11 @@ button:focus-visible {
 .opacity-35 {
     opacity: 35%;
 }
+
+.bold {
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+}

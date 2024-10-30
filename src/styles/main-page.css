@@ -73,14 +73,15 @@ header {
 
 .timer-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
     margin: 1rem 0;
     border: 1px solid var(--primary-color);
     border-radius: 2.5rem;
     height: 400px;
     width: 100%;
     box-shadow: 0 0px 8px 3px var(--primary-color);
+    gap: 2rem;
 }
 
 .timer {
@@ -107,4 +108,10 @@ header {
     font-size: 5em;
     display: flex;
     gap: 1rem;
+}
+
+.study-buttons {
+    display: flex;
+    outline: 1px solid green;
+    width: 100%;
 }

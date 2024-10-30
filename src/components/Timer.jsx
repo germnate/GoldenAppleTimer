@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { StudySwitch } from "./StudySwitch";
 
 export function Timer(props) {
     const { startingMinutes, startingSeconds } = props;
     const [minutes, setMinutes] = useState(startingMinutes)
     const [seconds, setSeconds] = useState(startingSeconds)
+    const [studyStatus, setStudyStatus] = useState('')
     const [timer, setTimer] = useState(null);
 
     function getDisplayValue() {
@@ -49,6 +51,9 @@ export function Timer(props) {
                     <button onClick={reset}>Reset</button>
                     <button onClick={timer ? pause : start}>{timer ? "Pause" : "Start"}</button>
                 </div>
+            </div>
+            <div className='study-section'>
+                <StudySwitch studyStatus={studyStatus} setStudyStatus={setStudyStatus} />
             </div>
         </div>
     )
