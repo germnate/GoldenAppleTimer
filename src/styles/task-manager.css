@@ -17,6 +17,11 @@
     box-shadow: -5px 0 0px 1px black;
 }
 
+.add-task {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 .task.active {
     border: 1px solid var(--primary-color)
 }
