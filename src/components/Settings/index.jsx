@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function Settings({ saveSettings }) {
+export function Settings({ save, close }) {
     const [studyMinutes, setStudyMinutes] = useState(30);
     const [breakMinutes, setBreakMinutes] = useState(5);
     const [longBreakMinutes, setLongBreakMinutes] = useState(15);
@@ -12,11 +12,12 @@ export function Settings({ saveSettings }) {
     }
 
     function onSave() {
-        saveSettings({
+        save({
             studyMinutes,
             breakMinutes,
             longBreakMinutes,
         })
+        close();
     }
 
     return (
@@ -28,11 +29,11 @@ export function Settings({ saveSettings }) {
                 </div>
                 <div>
                     <label>Break</label>
-                    <input type='number' value={studyMinutes} onChange={handleChangeMinutes(setBreakMinutes)} />
+                    <input type='number' value={breakMinutes} onChange={handleChangeMinutes(setBreakMinutes)} />
                 </div>
                 <div>
                     <label>Long Break</label>
-                    <input type='number' value={studyMinutes} onChange={handleChangeMinutes(setLongBreakMinutes)} />
+                    <input type='number' value={longBreakMinutes} onChange={handleChangeMinutes(setLongBreakMinutes)} />
                 </div>
             </div>
             <div className='footer'>

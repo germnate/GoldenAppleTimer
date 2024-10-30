@@ -14,8 +14,8 @@ function App() {
   const [tasksOpen, setTasksOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [studyTime, setStudyTime] = useState({ minutes: 30, seconds: 0 })
-  const [shortBreak, setShortBreak] = useState({ minutes: 5, seconds: 0 })
-  const [longBreak, setLongBreak] = useState({ minutes: 15, seconds: 0 })
+  const [shortBreak, setBreakTime] = useState({ minutes: 5, seconds: 0 })
+  const [longBreak, setLongBreakTime] = useState({ minutes: 15, seconds: 0 })
 
   function onClickTask() {
     setTasksOpen(true);
@@ -44,13 +44,13 @@ function App() {
     <div className='container'>
       <Header onClickTask={onClickTask} onClickGear={onClickGear} />
       <main>
-        <Timer startingMinutes={studyTime.minutes} startingSeconds={studyTime.seconds} />
+        <Timer studyTime={studyTime} breakTime={shortBreak} longBreakTime={longBreak} />
       </main>
       <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
         <TaskManager />
       </Modal>
       <Modal isOpen={settingsOpen} close={closeSettings} header='Settings'>
-        <Settings saveSettings={saveSettings} />
+        <Settings save={saveSettings} close={closeSettings} />
       </Modal>
     </div>
   )

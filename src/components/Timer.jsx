@@ -1,18 +1,29 @@
-import { useState } from "react"
-import { StudySwitch } from "./StudySwitch";
+import { useEffect, useState } from "react"
+import { StudySwitch, STATUSES } from "./StudySwitch";
 
 export function Timer(props) {
-    const { startingMinutes, startingSeconds } = props;
-    const [minutes, setMinutes] = useState(startingMinutes)
-    const [seconds, setSeconds] = useState(startingSeconds)
+    const [activeTimer, setActiveTimer] = useState(props.studyTime);
     const [studyStatus, setStudyStatus] = useState('')
     const [timer, setTimer] = useState(null);
 
+    function getTime(name) {
+        switch (name || studyStatus) {
+            case STATUSES.study:
+                return props.studyTime
+            case STATUSES.break:
+                return props.breakTime
+            case STATUSES.longBreak:
+                return props.longBreakTime
+            default:
+                return props.studyTime
+        }
+    }
+
     function getDisplayValue() {
         return <>
-            <span>{minutes.toString().padStart(2, '0')}</span>
+            <span>{activeTimer.minutes.toString().padStart(2, '0')}</span>
             :
-            <span>{seconds.toString().padStart(2, '0')}</span>
+            <span>{activeTimer.seconds.toString().padStart(2, '0')}</span>
         </>
     }
 
@@ -22,8 +33,9 @@ export function Timer(props) {
     }
 
     function start() {
-        let min = minutes;
-        let sec = seconds;
+        if (!studyStatus) setStudyStatus(STATUSES.study)
+        let min = activeTimer.minutes;
+        let sec = activeTimer.seconds;
         const interval = setInterval(() => {
             if (min === 0 && sec === 0) return clearInterval(interval);
             sec = sec - 1;
@@ -31,16 +43,14 @@ export function Timer(props) {
                 min = min - 1;
                 sec = 59;
             }
-            setSeconds(sec);
-            setMinutes(min);
+            setActiveTimer({ minutes: min, seconds: sec })
         }, 1000)
         setTimer(interval)
     }
 
-    function reset() {
+    function reset(name) {
         pause();
-        setSeconds(startingSeconds);
-        setMinutes(startingMinutes);
+        setActiveTimer(getTime(name))
     }
 
     return (
@@ -53,7 +63,11 @@ export function Timer(props) {
                 </div>
             </div>
             <div className='study-section'>
-                <StudySwitch studyStatus={studyStatus} setStudyStatus={setStudyStatus} />
+                <StudySwitch
+                    studyStatus={studyStatus}
+                    setStudyStatus={setStudyStatus}
+                    reset={reset}
+                />
             </div>
         </div>
     )
