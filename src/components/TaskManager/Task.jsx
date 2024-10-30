@@ -14,8 +14,8 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked }) {
     return (
         <div className='task'>
             <input type='checkbox' checked={task.checked} onChange={onToggleChecked} />
-            <input type='text' value={task.name} onChange={onChangeTaskName} />
-            <button onClick={onRemoveTask}>Close</button>
+            <input type='text' className={`${task.checked ? 'strikethrough' : ''}`} value={task.name} onChange={onChangeTaskName} />
+            <button onClick={onRemoveTask}>&times;</button>
         </div>
     )
 }

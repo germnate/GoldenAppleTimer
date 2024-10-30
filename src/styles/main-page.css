@@ -31,8 +31,8 @@
     position: absolute;
     background-color: var(--secondary-color);
     height: 50%;
-    width: 75%;
-    min-width: 287px;
+    width: 96%;
+    min-width: 300px;
     max-width: 600px;
     border-radius: 1rem;
 }
@@ -43,6 +43,7 @@
     justify-content: space-between;
     padding: 1rem 2rem;
     margin-top: 0;
+    margin-bottom: 1rem;
     border-radius: 1rem 1rem 0 0;
     background-color: rgb(38, 41, 51);
     border-bottom: 1px solid rgb(63, 56, 56);

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { v4 as uuid } from 'uuid'
 
 export function AddTask({ addTask }) {
     const [task, setTask] = useState({ id: '', name: '', checked: false })
@@ -8,12 +9,12 @@ export function AddTask({ addTask }) {
     }
 
     function onAdd() {
-        addTask({ ...task, id: crypto.randomUUID() })
+        addTask({ ...task, id: uuid() })
         setTask({ id: '', name: '', checked: false })
     }
 
     return (
-        <div>
+        <div className='add-task'>
             <input type='text' value={task.name} onChange={onChangeName} />
             <button onClick={onAdd}>Add</button>
         </div>
