@@ -13,7 +13,6 @@ export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, s
     }
 
     function grab(e) {
-        e.dataTransfer.effectAllowed = 'move';
         setDraggingTask(task);
         setDraggingIndex(index)
         setGrabbing(true);
@@ -27,7 +26,6 @@ export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, s
 
     function onDragOver(e) {
         e.preventDefault();
-        e.dataTransfer.effectAllowed = 'move';
         setDraggingIndex(index);
     }
 
