@@ -15,7 +15,8 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked, setDragg
         toggleChecked(task.id)
     }
 
-    function grab() {
+    function grab(e) {
+        e.dataTransfer.effectAllowed = 'move';
         setDraggingTask(task);
         setDraggingIndex(index)
         setGrabbing(true);
@@ -29,6 +30,7 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked, setDragg
 
     function onDragOver(e) {
         e.preventDefault();
+        e.dataTransfer.effectAllowed = 'move';
         setDraggingIndex(index);
     }
 
@@ -64,7 +66,7 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked, setDragg
         >
             <input type='checkbox' checked={task.checked} onChange={onToggleChecked} />
             <span className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
-            <button onClick={onRemoveTask}>&times;</button>
+            <button className='vellip' onClick={onRemoveTask}>&#8942;</button>
         </div>
     )
 }
