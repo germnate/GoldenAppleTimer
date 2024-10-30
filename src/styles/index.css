@@ -27,6 +27,13 @@ h4 {
     line-height: 1.1;
 }
 
+input {
+    background-color: transparent;
+    color: rgb(214, 204, 204);
+    padding: 0.5rem 1rem;
+    border: none;
+}
+
 button {
     border-radius: 8px;
     border: 1px solid var(--primary-color);
