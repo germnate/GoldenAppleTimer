@@ -109,7 +109,7 @@ export function Timer(props) {
                 sec = 59;
             }
             dispatch({ type: 'ACTIVE_TIMER', activeTimer: { minutes: min, seconds: sec } })
-        }, 100)
+        }, 1000)
         dispatch({ type: 'INTERVAL', interval })
     }
 
