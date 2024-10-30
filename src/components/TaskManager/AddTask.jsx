@@ -13,9 +13,14 @@ export function AddTask({ addTask }) {
         setTask({ id: '', name: '', checked: false })
     }
 
+    function handleKeyDown(e) {
+        if (e.key !== 'Enter') return;
+        onAdd();
+    }
+
     return (
         <div className='add-task'>
-            <input type='text' value={task.name} onChange={onChangeName} />
+            <input type='text' value={task.name} onChange={onChangeName} onKeyDown={handleKeyDown} />
             <button onClick={onAdd}>Add</button>
         </div>
     )
