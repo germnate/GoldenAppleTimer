@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AddTask } from "./AddTask";
 import { Task } from "./Task";
+import { EditTask } from "./EditTask";
 
 export function TaskManager() {
     const [tasks, setTasks] = useState([])
@@ -39,6 +40,25 @@ export function TaskManager() {
         })
     }
 
+    function edit(id) {
+
+        setTasks(prevTasks => {
+            return prevTasks.map((each) => {
+                if (each.id !== id) return { ...each, editing: false };
+                return { ...each, editing: true }
+            })
+        })
+    }
+
+    function save(id) {
+        setTasks(prevTasks => {
+            return prevTasks.map((each) => {
+                if (each.id !== id) return { ...each, editing: false };
+                return { ...each, editing: false }
+            })
+        })
+    }
+
     function updateIndex(id, newIndex) {
         setTasks(prev => {
             const oldIndex = prev.findIndex(task => task.id === id)
@@ -50,17 +70,24 @@ export function TaskManager() {
     return (
         <div className='task-manager'>
             {tasks.map((task, index) => {
-                return <Task
-                    key={task.id}
-                    task={task}
-                    removeTask={removeTask}
-                    changeTaskName={changeTaskName}
-                    toggleChecked={toggleChecked}
-                    updateIndex={updateIndex}
-                    setDraggingIndex={setDraggingIndex}
-                    setDraggingTask={setDraggingTask}
-                    index={index}
-                />
+                return task.editing
+                    ? <EditTask
+                        key={task.id}
+                        task={task}
+                        removeTask={removeTask}
+                        changeTaskName={changeTaskName}
+                        save={save}
+                    />
+                    : <Task
+                        key={task.id}
+                        task={task}
+                        toggleChecked={toggleChecked}
+                        updateIndex={updateIndex}
+                        setDraggingIndex={setDraggingIndex}
+                        setDraggingTask={setDraggingTask}
+                        edit={edit}
+                        index={index}
+                    />
             })}
             <AddTask addTask={addTask} />
         </div>

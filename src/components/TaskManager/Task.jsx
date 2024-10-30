@@ -1,18 +1,14 @@
 import { useState } from "react"
 
-export function Task({ task, removeTask, changeTaskName, toggleChecked, setDraggingIndex, setDraggingTask, index }) {
+export function Task({ task, edit, toggleChecked, setDraggingIndex, setDraggingTask, index }) {
     const [grabbing, setGrabbing] = useState(false);
-
-    function onChangeTaskName(e) {
-        changeTaskName(task.id, e.target.value)
-    }
-
-    function onRemoveTask() {
-        removeTask(task.id)
-    }
 
     function onToggleChecked() {
         toggleChecked(task.id)
+    }
+
+    function onEdit() {
+        edit(task.id);
     }
 
     function grab(e) {
@@ -66,7 +62,7 @@ export function Task({ task, removeTask, changeTaskName, toggleChecked, setDragg
         >
             <input type='checkbox' checked={task.checked} onChange={onToggleChecked} />
             <span className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
-            <button className='vellip' onClick={onRemoveTask}>&#8942;</button>
+            <button className='vellip' onClick={onEdit}>&#8942;</button>
         </div>
     )
 }
