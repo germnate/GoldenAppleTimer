@@ -55,6 +55,12 @@ button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
 }
 
+.subtle-btn {
+    color: gray;
+    text-decoration: underline;
+    border: none
+}
+
 .strikethrough {
     text-decoration: line-through;
 }

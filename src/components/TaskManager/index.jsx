@@ -36,6 +36,12 @@ export function TaskManager() {
         saveToLocalStorage(splicedTasks);
     }
 
+    function clearCompleted() {
+        const newTasks = tasksState.tasks.filter(task => !task.checked)
+        setTasksState({ editingIndex: -1, tasks: newTasks })
+        saveToLocalStorage(newTasks);
+    }
+
     function changeTaskName(id, name) {
         setTasksState(prevTasksState => {
             const newTasks = prevTasksState.tasks.map((each) => {
@@ -91,6 +97,7 @@ export function TaskManager() {
 
     return (
         <div className='task-manager'>
+            <button className='subtle-btn clear-completed' onClick={clearCompleted}>Clear Completed</button>
             {tasksState.tasks.map((task, index) => {
                 return index === tasksState.editingIndex
                     ? <EditTask
