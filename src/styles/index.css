@@ -2,7 +2,6 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-weight: 400;
     overflow: hidden;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -13,9 +12,14 @@ body {
     margin: 0;
     min-height: 100vh;
     min-height: 100dvh;
-    --secondary-color: rgb(41, 41, 51);
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow-y: auto;
+    --base-primary-color: 220, 193, 56;
+    --base-secondary-color: 41, 41, 51;
+    --secondary-color: rgb(var(--base-secondary-color));
     background-color: var(--secondary-color);
-    --primary-color: #dcc138;
+    --primary-color: rgb(var(--base-primary-color));
     color: var(--primary-color);
 }
 

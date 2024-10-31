@@ -71,7 +71,8 @@ header {
     margin-left: 6px;
 }
 
-.timer-container {
+.timer-container,
+.music-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -82,6 +83,10 @@ header {
     width: 100%;
     box-shadow: 0 0px 8px 3px var(--primary-color);
     gap: 2rem;
+}
+
+.music-container {
+    height: auto;
 }
 
 .timer {
@@ -117,6 +122,29 @@ header {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.music-list {
+    margin: 3rem 0;
+}
+
+.music-row:nth-child(odd) {
+    background-color: rgba(222, 222, 222, 0.15);
+}
+
+.music-row:nth-child(even) {
+    background-color: rgba(222, 222, 222, 0.1);
+}
+
+.music-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.music-row.active {
+    outline: 1px solid var(--primary-color);
+    background-color: rgba(var(--base-primary-color), 0.2);
 }
 
 .animate-button {

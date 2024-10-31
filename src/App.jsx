@@ -11,6 +11,8 @@ import { TaskManager } from './components/TaskManager'
 import { Settings } from './components/Settings'
 import { TimerProvider } from './contexts/TimerContext'
 import { SettingsProvider } from './contexts/SettingsContext'
+import { MusicPlayer } from './components/MusicPlayer'
+import { MusicPlayerProvider } from './contexts/MusicPlayerContext'
 
 function App() {
   const [tasksOpen, setTasksOpen] = useState(false);
@@ -45,21 +47,34 @@ function App() {
     })
   }
 
+  function onChangeFile(e) {
+    setFiles(() => {
+      const f = e.target.files
+      if (!f?.length) return;
+      return [...f].map(each => {
+        return { file: each, url: URL.createObjectURL(each) }
+      })
+    })
+  }
+
   return (
     <SettingsProvider>
       <TimerProvider>
-        <div className='container'>
-          <Header onClickTask={onClickTask} onClickGear={onClickGear} />
-          <main>
-            <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
-          </main>
-          <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
-            <TaskManager />
-          </Modal>
-          <Modal isOpen={settingsOpen} close={closeSettings} header='Settings'>
-            <Settings save={saveSettings} close={closeSettings} />
-          </Modal>
-        </div>
+        <MusicPlayerProvider>
+          <div className='container'>
+            <Header onClickTask={onClickTask} onClickGear={onClickGear} />
+            <main>
+              <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
+              <MusicPlayer />
+            </main>
+            <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
+              <TaskManager />
+            </Modal>
+            <Modal isOpen={settingsOpen} close={closeSettings} header='Settings'>
+              <Settings save={saveSettings} close={closeSettings} />
+            </Modal>
+          </div>
+        </MusicPlayerProvider>
       </TimerProvider>
     </SettingsProvider>
   )
