@@ -10,6 +10,7 @@ import { Modal } from './components/Modal'
 import { TaskManager } from './components/TaskManager'
 import { Settings } from './components/Settings'
 import { TimerProvider } from './contexts/TimerContext'
+import { SettingsProvider } from './contexts/SettingsContext'
 
 function App() {
   const [tasksOpen, setTasksOpen] = useState(false);
@@ -45,20 +46,22 @@ function App() {
   }
 
   return (
-    <TimerProvider>
-      <div className='container'>
-        <Header onClickTask={onClickTask} onClickGear={onClickGear} />
-        <main>
-          <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
-        </main>
-        <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
-          <TaskManager />
-        </Modal>
-        <Modal isOpen={settingsOpen} close={closeSettings} header='Settings'>
-          <Settings save={saveSettings} close={closeSettings} />
-        </Modal>
-      </div>
-    </TimerProvider>
+    <SettingsProvider>
+      <TimerProvider>
+        <div className='container'>
+          <Header onClickTask={onClickTask} onClickGear={onClickGear} />
+          <main>
+            <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
+          </main>
+          <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
+            <TaskManager />
+          </Modal>
+          <Modal isOpen={settingsOpen} close={closeSettings} header='Settings'>
+            <Settings save={saveSettings} close={closeSettings} />
+          </Modal>
+        </div>
+      </TimerProvider>
+    </SettingsProvider>
   )
 }
 

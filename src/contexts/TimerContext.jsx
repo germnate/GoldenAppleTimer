@@ -1,5 +1,6 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { STATUSES } from "../components/StudySwitch";
+import { useSettings } from "../hooks";
 
 export const TimerContext = createContext();
 
@@ -56,23 +57,35 @@ function reducer(state, action) {
                 numStudies: nextNumStudies,
             }
         default:
-            throw new Error(`${action.type} not implemented`)
+            throw new Error(`${action?.type} not implemented`)
     }
 }
 
 export function TimerProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
+    const { preferences } = useSettings();
+    const isTimerStarted = !!state.interval
+
+    useEffect(() => {
+        if (!isTimerStarted && !!state.activeTimer?.minutes && state.studyStatus) {
+            return start();
+        }
+    }, [state.studyStatus])
+
+    useEffect(() => {
+        if (!isTimerStarted) reset();
+    }, [preferences.studyTimer, preferences.breakTimer, preferences.longBreakTimer])
 
     function getTime(name) {
         switch (name || state.studyStatus) {
             case STATUSES.study:
-                return { minutes: 1, seconds: 0 }
+                return preferences.studyTimer;
             case STATUSES.break:
-                return { minutes: 5, seconds: 0 }
+                return preferences.breakTimer;
             case STATUSES.longBreak:
-                return { minutes: 15, seconds: 0 }
+                return preferences.longBreakTimer;
             default:
-                return { minutes: 30, seconds: 0 }
+                return preferences.studyTimer;
         }
     }
 
@@ -91,7 +104,7 @@ export function TimerProvider({ children }) {
                 sec = 59;
             }
             dispatch({ type: 'ACTIVE_TIMER', activeTimer: { minutes: min, seconds: sec } })
-        }, 100)
+        }, 1000)
         dispatch({ type: 'INTERVAL', interval })
     }
 
@@ -117,7 +130,7 @@ export function TimerProvider({ children }) {
             start,
             pause,
             reset,
-            isTimerStarted: !!state.interval,
+            isTimerStarted,
             timer: state,
             dispatchToTimer: dispatch,
             setStudyStatus,

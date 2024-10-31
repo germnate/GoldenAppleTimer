@@ -4,15 +4,6 @@ import { useTimer } from "../hooks";
 
 export function Timer(props) {
     const { timer, setStudyStatus, isTimerStarted, reset, start, pause } = useTimer();
-    useEffect(() => {
-        if (!isTimerStarted && !!timer.activeTimer?.minutes && timer.studyStatus) {
-            return start();
-        }
-    }, [timer.studyStatus])
-
-    useEffect(() => {
-        if (!isTimerStarted) reset();
-    }, [props.studyTime, props.breakTime, props.longBreakTime])
 
     function getDisplayValue() {
         return <>

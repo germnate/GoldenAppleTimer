@@ -1,9 +1,12 @@
 import { useState } from "react"
+import { DEFAULT_TIMERS } from "../../contexts/SettingsContext";
+import { useSettings } from "../../hooks";
 
-export function Settings({ save, close }) {
-    const [studyMinutes, setStudyMinutes] = useState(30);
-    const [breakMinutes, setBreakMinutes] = useState(5);
-    const [longBreakMinutes, setLongBreakMinutes] = useState(15);
+export function Settings({ close }) {
+    const { save } = useSettings()
+    const [studyMinutes, setStudyMinutes] = useState(DEFAULT_TIMERS.study.minutes);
+    const [breakMinutes, setBreakMinutes] = useState(DEFAULT_TIMERS.break.minutes);
+    const [longBreakMinutes, setLongBreakMinutes] = useState(DEFAULT_TIMERS.longBreak.minutes);
 
     function handleChangeMinutes(callback) {
         return function (e) {
@@ -13,9 +16,9 @@ export function Settings({ save, close }) {
 
     function onSave() {
         save({
-            studyMinutes,
-            breakMinutes,
-            longBreakMinutes,
+            studyTimer: { minutes: studyMinutes, seconds: 0 },
+            breakTimer: { minutes: breakMinutes, seconds: 0 },
+            longBreakTimer: { minutes: longBreakMinutes, seconds: 0 },
         })
         close();
     }
