@@ -1,12 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DEFAULT_TIMERS } from "../../contexts/SettingsContext";
 import { useSettings } from "../../hooks";
 
 export function Settings({ close }) {
-    const { save } = useSettings()
-    const [studyMinutes, setStudyMinutes] = useState(DEFAULT_TIMERS.study.minutes);
-    const [breakMinutes, setBreakMinutes] = useState(DEFAULT_TIMERS.break.minutes);
-    const [longBreakMinutes, setLongBreakMinutes] = useState(DEFAULT_TIMERS.longBreak.minutes);
+    const { saveTimers, preferences, load } = useSettings()
+    const [studyMinutes, setStudyMinutes] = useState(preferences.studyTimer?.minutes || DEFAULT_TIMERS.study.minutes);
+    const [breakMinutes, setBreakMinutes] = useState(preferences.breakTimer?.minutes || DEFAULT_TIMERS.break.minutes);
+    const [longBreakMinutes, setLongBreakMinutes] = useState(preferences.longBreakTimer?.minutes || DEFAULT_TIMERS.longBreak.minutes);
+
+    useEffect(() => {
+        console.log(preferences)
+        setStudyMinutes(preferences.studyTimer?.minutes || DEFAULT_TIMERS.study.minutes)
+        setBreakMinutes(preferences.breakTimer?.minutes || DEFAULT_TIMERS.break.minutes)
+        setLongBreakMinutes(preferences.longBreakTimer?.minutes || DEFAULT_TIMERS.longBreak.minutes)
+    }, [preferences])
 
     function handleChangeMinutes(callback) {
         return function (e) {
@@ -15,11 +22,19 @@ export function Settings({ close }) {
     }
 
     function onSave() {
-        save({
-            studyTimer: { minutes: studyMinutes, seconds: 0 },
-            breakTimer: { minutes: breakMinutes, seconds: 0 },
-            longBreakTimer: { minutes: longBreakMinutes, seconds: 0 },
+        saveTimers({
+            studyTimer: { minutes: Number(studyMinutes), seconds: 0 },
+            breakTimer: { minutes: Number(breakMinutes), seconds: 0 },
+            longBreakTimer: { minutes: Number(longBreakMinutes), seconds: 0 },
         })
+        close();
+    }
+
+    function cancel() {
+        load();
+        setStudyMinutes(preferences.studyTimer?.minutes || DEFAULT_TIMERS.study.minutes)
+        setBreakMinutes(preferences.breakTimer?.minutes || DEFAULT_TIMERS.break.minutes)
+        setLongBreakMinutes(preferences.longBreakTimer?.minutes || DEFAULT_TIMERS.longBreak.minutes)
         close();
     }
 
@@ -40,6 +55,7 @@ export function Settings({ close }) {
                 </div>
             </div>
             <div className='footer'>
+                <button onClick={cancel}>Cancel</button>
                 <button onClick={onSave}>Save</button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 export const SettingsContext = createContext();
 
@@ -8,8 +8,10 @@ export const DEFAULT_TIMERS = {
     longBreak: { minutes: 15, seconds: 0 },
 }
 
-const SETTINGS_ACTIONS = {
-    updateTimers: 'UPDATE_TIMERS'
+const SETTINGS = {
+    save: 'SAVE',
+    load: 'LOAD',
+    updateTimers: 'UPDATE_TIMERS',
 }
 
 const initialState = {
@@ -18,15 +20,33 @@ const initialState = {
     longBreakTimer: { ...DEFAULT_TIMERS.longBreak },
 }
 
+function save(settings) {
+    localStorage.setItem('settings', JSON.stringify(settings))
+}
+
+function load() {
+    const settings = localStorage.getItem('settings')
+    if (!settings) return null;
+    return JSON.parse(settings)
+}
+
 function reducer(state, action) {
     switch (action.type) {
-        case SETTINGS_ACTIONS.updateTimers:
-            return {
+        case SETTINGS.save:
+            save(actions.settings || state)
+            return action.settings
+        case SETTINGS.load:
+            const settings = load();
+            return settings || initialState
+        case SETTINGS.updateTimers:
+            const updatedState = {
                 ...state,
                 studyTimer: action?.studyTimer || state.studyTimer,
                 breakTimer: action?.breakTimer || state.breakTimer,
                 longBreakTimer: action?.longBreakTimer || state.longBreakTimer,
             }
+            save(updatedState);
+            return updatedState;
         default:
             throw new Error(`${action?.type} not implemented.`)
     }
@@ -35,25 +55,33 @@ function reducer(state, action) {
 export function SettingsProvider({ children }) {
     const [preferences, dispatchPreferences] = useReducer(reducer, initialState);
 
-    function load() {
-        // load settings from localStorage
-    }
+    useEffect(() => {
+        dispatchLoad();
+    }, [])
 
-
-    function save(settings = {}) {
+    function saveTimers(settings = {}) {
         const { studyTimer, breakTimer, longBreakTimer } = settings;
-        dispatchPreferences({
-            type: SETTINGS_ACTIONS.updateTimers,
+        return dispatchPreferences({
+            type: SETTINGS.updateTimers,
             studyTimer,
             breakTimer,
             longBreakTimer,
         })
-        // save settings to localStorage
+    }
+
+    function dispatchSave(settings) {
+        if (!settings) throw new Error('cannot save undefined or null. If you want to clear settings save and empty object.')
+        return dispatchPreferences({ type: SETTINGS.save })
+    }
+
+    function dispatchLoad() {
+        return dispatchPreferences({ type: SETTINGS.load })
     }
 
     return <SettingsContext.Provider value={{
-        save,
-        load,
+        saveTimers,
+        save: dispatchSave,
+        load: dispatchLoad,
         preferences,
         dispatchPreferences,
     }}>
