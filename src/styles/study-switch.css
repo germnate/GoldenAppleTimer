@@ -6,6 +6,11 @@
     border-radius: 0;
     padding: 0.5rem 1rem;
     color: white;
+    transition: transform 100ms;
+}
+
+.study-switch button:active {
+    transform: translateY(-4px)
 }
 
 .study-switch :first-child {

@@ -19,8 +19,8 @@ export function Timer(props) {
                 <div className='time'>
                     <div className='display'>{getDisplayValue()}</div>
                     <div className='buttons'>
-                        <button onClick={() => reset()}>Reset</button>
-                        <button onClick={isTimerStarted ? pause : start}>{isTimerStarted ? "Pause" : "Start"}</button>
+                        <button className='animate-button' onClick={() => reset()}>Reset</button>
+                        <button className='animate-button' onClick={isTimerStarted ? pause : start}>{isTimerStarted ? "Pause" : "Start"}</button>
                     </div>
                 </div>
             </div>

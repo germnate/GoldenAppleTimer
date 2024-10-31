@@ -119,8 +119,10 @@ header {
     width: 100%;
 }
 
-.study-buttons {
-    display: flex;
-    outline: 1px solid green;
-    width: 100%;
+.animate-button {
+    transition: transform 100ms;
+}
+
+.animate-button:active {
+    transform: scale(0.95)
 }
