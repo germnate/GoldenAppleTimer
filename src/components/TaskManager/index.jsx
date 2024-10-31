@@ -51,7 +51,7 @@ export function TaskManager() {
             const newTasks = prevTasksState.tasks.map((each, index) => {
                 if (each.id !== id) return each;
                 if (each.active && !each.checked) { // "not checked" because this represents going from unchecked to checked
-                    if (index < prevTasksState.length - 1) prevTasksState[index + 1].active = true;
+                    if (index < prevTasksState.tasks.length - 1) prevTasksState.tasks[index + 1].active = true;
                     return { ...each, checked: !each.checked, active: false }
                 }
                 return { ...each, checked: !each.checked }
