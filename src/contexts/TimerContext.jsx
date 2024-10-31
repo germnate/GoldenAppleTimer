@@ -10,63 +10,63 @@ const initialState = {
     numStudies: 0,
 }
 
+function reducer(state, action) {
+    switch (action.type) {
+        case "ACTIVE_TIMER":
+            return {
+                ...state,
+                activeTimer: action.activeTimer
+            }
+        case "STUDY_STATUS":
+            return {
+                ...state,
+                studyStatus: action.studyStatus
+            }
+        case "INTERVAL":
+            return {
+                ...state,
+                interval: action.interval,
+            }
+        case "PAUSE":
+            clearInterval(state.interval)
+            return {
+                ...state,
+                interval: null,
+            }
+        case 'NEXT':
+            clearInterval(state.interval)
+            let nextStatus = null;
+            let nextNumStudies = state.numStudies;
+            if (state.studyStatus === STATUSES.study) {
+                if (state.numStudies >= 1) {
+                    nextNumStudies = 0;
+                    nextStatus = STATUSES.longBreak;
+                } else {
+                    nextNumStudies += 1;
+                    nextStatus = STATUSES.break;
+                }
+            }
+            if (state.studyStatus === STATUSES.break) nextStatus = STATUSES.study;
+            if (state.studyStatus === STATUSES.longBreak) nextStatus = STATUSES.study;
+            return {
+                ...state,
+                interval: null,
+                studyStatus: nextStatus,
+                activeTimer: action.getTime(nextStatus),
+                numStudies: nextNumStudies,
+            }
+        default:
+            throw new Error(`${action.type} not implemented`)
+    }
+}
+
 export function TimerProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
-
-    function reducer(state, action) {
-        switch (action.type) {
-            case "ACTIVE_TIMER":
-                return {
-                    ...state,
-                    activeTimer: action.activeTimer
-                }
-            case "STUDY_STATUS":
-                return {
-                    ...state,
-                    studyStatus: action.studyStatus
-                }
-            case "INTERVAL":
-                return {
-                    ...state,
-                    interval: action.interval,
-                }
-            case "PAUSE":
-                clearInterval(state.interval)
-                return {
-                    ...state,
-                    interval: null,
-                }
-            case 'NEXT':
-                clearInterval(state.interval)
-                let nextStatus = null;
-                let nextNumStudies = state.numStudies;
-                if (state.studyStatus === STATUSES.study) {
-                    if (state.numStudies > 2) {
-                        nextNumStudies = 0;
-                        nextStatus = STATUSES.longBreak;
-                    } else {
-                        nextNumStudies += 1;
-                        nextStatus = STATUSES.break;
-                    }
-                }
-                if (state.studyStatus === STATUSES.break) nextStatus = STATUSES.study;
-                if (state.studyStatus === STATUSES.longBreak) nextStatus = STATUSES.study;
-                return {
-                    ...state,
-                    interval: null,
-                    studyStatus: nextStatus,
-                    activeTimer: getTime(nextStatus),
-                    numStudies: nextNumStudies,
-                }
-            default:
-                throw new Error(`${action.type} not implemented`)
-        }
-    }
 
     function getTime(name) {
         switch (name || state.studyStatus) {
             case STATUSES.study:
-                return { minutes: 30, seconds: 0 }
+                return { minutes: 1, seconds: 0 }
             case STATUSES.break:
                 return { minutes: 5, seconds: 0 }
             case STATUSES.longBreak:
@@ -83,7 +83,7 @@ export function TimerProvider({ children }) {
         let sec = state.activeTimer.seconds;
         const interval = setInterval(() => {
             if (min === 0 && sec === 0) {
-                return dispatch({ type: 'NEXT' })
+                return dispatch({ type: 'NEXT', getTime })
             }
             sec = sec - 1;
             if (sec < 0) {
@@ -91,7 +91,7 @@ export function TimerProvider({ children }) {
                 sec = 59;
             }
             dispatch({ type: 'ACTIVE_TIMER', activeTimer: { minutes: min, seconds: sec } })
-        }, 1000)
+        }, 100)
         dispatch({ type: 'INTERVAL', interval })
     }
 
