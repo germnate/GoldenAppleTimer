@@ -16,6 +16,10 @@ export function Timer(props) {
         }
     }, [state.studyStatus])
 
+    useEffect(() => {
+        if (!state.interval) reset();
+    }, [props.studyTime, props.breakTime, props.longBreakTime])
+
     function reducer(state, action) {
         switch (action.type) {
             case "ACTIVE_TIMER":
