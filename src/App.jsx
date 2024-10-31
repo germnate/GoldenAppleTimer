@@ -13,9 +13,11 @@ import { Settings } from './components/Settings'
 function App() {
   const [tasksOpen, setTasksOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [studyTime, setStudyTime] = useState({ minutes: 30, seconds: 0 })
-  const [shortBreak, setBreakTime] = useState({ minutes: 5, seconds: 0 })
-  const [longBreak, setLongBreakTime] = useState({ minutes: 15, seconds: 0 })
+  const [timers, setTimers] = useState({
+    studyTime: { minutes: 30, seconds: 0 },
+    breakTime: { minutes: 5, seconds: 0 },
+    longBreakTime: { minutes: 15, seconds: 0 },
+  })
 
   function onClickTask() {
     setTasksOpen(true);
@@ -34,17 +36,18 @@ function App() {
   }
 
   function saveSettings(settingsObj) {
-    console.log(settingsObj)
-    setStudyTime({ minutes: settingsObj.studyMinutes, seconds: 0 })
-    setBreakTime({ minutes: settingsObj.breakMinutes, seconds: 0 })
-    setLongBreakTime({ minutes: settingsObj.longBreakMinutes, seconds: 0 })
+    setTimers({
+      studyTime: { minutes: settingsObj.studyMinutes, seconds: 0 },
+      breakTime: { minutes: settingsObj.breakMinutes, seconds: 0 },
+      longBreakTime: { minutes: settingsObj.longBreakMinutes, seconds: 0 },
+    })
   }
 
   return (
     <div className='container'>
       <Header onClickTask={onClickTask} onClickGear={onClickGear} />
       <main>
-        <Timer studyTime={studyTime} breakTime={shortBreak} longBreakTime={longBreak} />
+        <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
       </main>
       <Modal isOpen={tasksOpen} close={closeTasks} header='Tasks'>
         <TaskManager />
