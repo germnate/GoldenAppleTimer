@@ -60,7 +60,6 @@ export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, s
     return (
         <div
             className={classNames}
-            onClick={onSetActive}
             onDragStart={grab}
             onDragEnd={drop}
             onDragOver={onDragOver}
@@ -70,7 +69,7 @@ export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, s
             draggable
         >
             <input ref={checkBoxRef} type='checkbox' checked={task.checked} onChange={onToggleChecked} />
-            <span className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
+            <span onClick={onSetActive} className={`${task.checked ? 'strikethrough' : ''}`}>{task.name}</span>
             <button className='vellip' onClick={onEdit}>&#8942;</button>
         </div>
     )
