@@ -16,10 +16,12 @@ export function Timer(props) {
     return (
         <div className='timer-container'>
             <div className='timer'>
-                <div className='time'>{getDisplayValue()}</div>
-                <div className='buttons'>
-                    <button onClick={() => reset()}>Reset</button>
-                    <button onClick={isTimerStarted ? pause : start}>{isTimerStarted ? "Pause" : "Start"}</button>
+                <div className='time'>
+                    <div className='display'>{getDisplayValue()}</div>
+                    <div className='buttons'>
+                        <button onClick={() => reset()}>Reset</button>
+                        <button onClick={isTimerStarted ? pause : start}>{isTimerStarted ? "Pause" : "Start"}</button>
+                    </div>
                 </div>
             </div>
             <div className='study-section'>

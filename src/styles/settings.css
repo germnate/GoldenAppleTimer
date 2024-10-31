@@ -26,3 +26,12 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+.footer button {
+    padding: 0.5rem 1rem;
+}
+
+.footer .cancel {
+    color: gray;
+    border-color: gray;
+}

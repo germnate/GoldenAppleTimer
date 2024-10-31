@@ -55,7 +55,7 @@ export function Settings({ close }) {
                 </div>
             </div>
             <div className='footer'>
-                <button onClick={cancel}>Cancel</button>
+                <button className='cancel' onClick={cancel}>Cancel</button>
                 <button onClick={onSave}>Save</button>
             </div>
         </div>

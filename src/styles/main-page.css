@@ -91,12 +91,6 @@ header {
     align-items: center;
 }
 
-.timer .buttons {
-    min-width: 287px;
-    display: flex;
-    justify-content: space-between;
-}
-
 .timer button {
     width: 100px;
     height: 50px;
@@ -105,9 +99,24 @@ header {
 .timer .time {
     color: white;
     font-weight: bold;
-    font-size: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.timer .display {
     display: flex;
     gap: 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 5em;
+}
+
+.timer .time .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .study-buttons {
