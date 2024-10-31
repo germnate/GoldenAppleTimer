@@ -47,6 +47,8 @@
 .add-task input,
 .edit-task input {
     flex-grow: 1;
+    color: rgb(214, 204, 204);
+    padding: 0.5rem 1rem;
 }
 
 
