@@ -4,15 +4,14 @@ import { Task } from "./Task";
 import { EditTask } from "./EditTask";
 
 export function TaskManager() {
-    const [tasks, setTasks] = useState([])
-    const [editingIndex, setEditingIndex] = useState(-1);
+    const [tasksState, setTasksState] = useState({ editingIndex: -1, tasks: [] })
     const [draggingIndex, setDraggingIndex] = useState(null);
     const [draggingTask, setDraggingTask] = useState(null);
 
     useEffect(() => {
         const items = localStorage.getItem('tasks')
         if (!items) return;
-        setTasks(JSON.parse(items))
+        setTasksState({ ...tasksState, tasks: JSON.parse(items) })
     }, [])
 
     useEffect(() => {
@@ -21,79 +20,79 @@ export function TaskManager() {
     }, [draggingIndex])
 
     function saveToLocalStorage(items) {
-        localStorage.setItem('tasks', JSON.stringify(items || tasks))
+        localStorage.setItem('tasks', JSON.stringify(items || tasksState.tasks))
     }
 
     function addTask(task) {
-        const updatedTasks = [...tasks, task]
-        setTasks(updatedTasks)
+        const updatedTasks = [...tasksState.tasks, task]
+        setTasksState({ ...tasksState, tasks: updatedTasks, editingIndex: updatedTasks.length - 1 })
         saveToLocalStorage(updatedTasks);
     }
 
     function removeTask(id) {
-        const index = tasks.findIndex(task => task.id === id)
-        const splicedTasks = tasks.toSpliced(index, 1)
-        setTasks(splicedTasks)
-        setEditingIndex(-1)
+        const index = tasksState.tasks.findIndex(task => task.id === id);
+        const splicedTasks = tasksState.tasks.toSpliced(index, 1);
+        setTasksState({ editingIndex: -1, tasks: splicedTasks })
         saveToLocalStorage(splicedTasks);
     }
 
     function changeTaskName(id, name) {
-        setTasks(prevTasks => {
-            return prevTasks.map((each) => {
+        setTasksState(prevTasksState => {
+            const newTasks = prevTasksState.tasks.map((each) => {
                 if (each.id !== id) return each;
                 return { ...each, name }
             })
+            return { ...prevTasksState, tasks: newTasks }
         })
     }
 
     function toggleChecked(id) {
-        setTasks(prevTasks => {
-            const newTasks = prevTasks.map((each, index) => {
+        setTasksState(prevTasksState => {
+            const newTasks = prevTasksState.tasks.map((each, index) => {
                 if (each.id !== id) return each;
                 if (each.active && !each.checked) { // "not checked" because this represents going from unchecked to checked
-                    if (index < prevTasks.length - 1) prevTasks[index + 1].active = true;
+                    if (index < prevTasksState.length - 1) prevTasksState[index + 1].active = true;
                     return { ...each, checked: !each.checked, active: false }
                 }
                 return { ...each, checked: !each.checked }
             })
             saveToLocalStorage(newTasks);
-            return newTasks;
+            return { ...prevTasksState, tasks: newTasks };
         })
     }
 
     function setActive(id) {
-        setTasks(prevTasks => {
-            const newTasks = prevTasks.map((each) => {
+        setTasksState(prevTasksState => {
+            const newTasks = prevTasksState.tasks.map((each) => {
                 if (each.id !== id) return { ...each, active: false };
                 return { ...each, active: true }
             })
             saveToLocalStorage(newTasks)
-            return newTasks
+            return { ...prevTasksState, tasks: newTasks }
         })
     }
 
     function edit(index) {
-        setEditingIndex(index);
+        setTasksState({ ...tasksState, editingIndex: index })
     }
 
     function saveEdit() {
-        setEditingIndex(-1);
+        setTasksState({ ...tasksState, editingIndex: -1 })
         saveToLocalStorage();
     }
 
     function updateIndex(id, newIndex) {
-        setTasks(prev => {
-            const oldIndex = prev.findIndex(task => task.id === id)
-            const item = prev[oldIndex];
-            return prev.toSpliced(oldIndex, 1).toSpliced(newIndex, 0, item)
+        setTasksState(prevTasksState => {
+            const oldIndex = prevTasksState.tasks.findIndex(task => task.id === id)
+            const item = prevTasksState.tasks[oldIndex];
+            return { ...prevTasksState, tasks: prevTasksState.tasks.toSpliced(oldIndex, 1).toSpliced(newIndex, 0, item) }
         })
     }
 
     return (
         <div className='task-manager'>
-            {tasks.map((task, index) => {
-                return index === editingIndex
+            {tasksState.tasks.map((task, index) => {
+                return index === tasksState.editingIndex
                     ? <EditTask
                         key={task.id}
                         task={task}

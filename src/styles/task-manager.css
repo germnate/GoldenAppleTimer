@@ -5,7 +5,6 @@
 }
 
 .task,
-.add-task,
 .edit-task {
     display: flex;
     justify-content: space-between;
@@ -20,6 +19,8 @@
 .add-task {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 0;
 }
 
 .task.active {
@@ -28,6 +29,8 @@
 
 .edit-task {
     flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .edit-task .actions {
@@ -44,11 +47,14 @@
 }
 
 .task span,
-.add-task input,
 .edit-task input {
     flex-grow: 1;
     color: rgb(214, 204, 204);
     padding: 0.5rem 1rem;
+}
+
+.edit-task input {
+    border-bottom: 1px solid gray;
 }
 
 
@@ -56,10 +62,6 @@
     border: none;
     height: 30px;
     width: 30px;
-}
-
-.add-task input {
-    border-bottom: 1px solid rgb(125, 118, 118, 0.5);
 }
 
 .vellip {
