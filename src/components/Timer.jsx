@@ -11,15 +11,10 @@ export function Timer(props) {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     useEffect(() => {
-        if (!state.interval && state.activeTimer?.minutes && state.studyStatus) {
+        if (!state.interval && !!state.activeTimer?.minutes && state.studyStatus) {
             return start();
         }
-        if (!state.activeTimer || state.activeTimer.minutes > 0 || state.activeTimer.seconds > 0) {
-            return;
-        }
-        dispatch({ type: 'NEXT' })
-
-    }, [state.activeTimer])
+    }, [state.studyStatus])
 
     function reducer(state, action) {
         switch (action.type) {
@@ -102,7 +97,10 @@ export function Timer(props) {
         let min = state.activeTimer.minutes;
         let sec = state.activeTimer.seconds;
         const interval = setInterval(() => {
-            if (min === 0 && sec === 0) return pause();
+            if (min === 0 && sec === 0) {
+                return dispatch({ type: 'NEXT' })
+                // return pause();
+            }
             sec = sec - 1;
             if (sec < 0) {
                 min = min - 1;
