@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { StudySwitch } from "./StudySwitch";
+import { STATUSES, StudySwitch } from "./StudySwitch";
 import { useMusicPlayer, useTimer } from "../hooks";
 
 export function Timer(props) {
@@ -9,6 +9,10 @@ export function Timer(props) {
     useEffect(() => {
         if (!musicPlayer.tracks?.length) return;
         const activeTrack = musicPlayer.getActiveTrack();
+        if (timer.studyStatus !== STATUSES.study) {
+            if (!activeTrack) return;
+            return musicPlayer.pause();
+        }
         if (activeTrack && isTimerStarted) {
             return musicPlayer.unpause();
         }
@@ -16,9 +20,9 @@ export function Timer(props) {
             return musicPlayer.pause();
         }
         if (!activeTrack && isTimerStarted) {
-            musicPlayer.startTrack(musicPlayer.tracks[0].id)
+            return musicPlayer.startTrack(musicPlayer.tracks[0].id)
         }
-    }, [isTimerStarted])
+    }, [isTimerStarted, timer.studyStatus])
 
     function getDisplayValue() {
         return <>
