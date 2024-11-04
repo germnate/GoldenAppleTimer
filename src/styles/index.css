@@ -84,3 +84,7 @@ button:focus-visible {
 .underline {
     text-decoration: underline;
 }
+
+.invisible {
+    visibility: hidden;
+}
