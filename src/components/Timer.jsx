@@ -1,9 +1,24 @@
 import { useEffect } from "react"
 import { StudySwitch } from "./StudySwitch";
-import { useTimer } from "../hooks";
+import { useMusicPlayer, useTimer } from "../hooks";
 
 export function Timer(props) {
     const { timer, setStudyStatus, isTimerStarted, reset, start, pause } = useTimer();
+    const { musicPlayer } = useMusicPlayer();
+
+    useEffect(() => {
+        if (!musicPlayer.tracks?.length) return;
+        const activeTrack = musicPlayer.getActiveTrack();
+        if (activeTrack && isTimerStarted) {
+            return musicPlayer.unpause();
+        }
+        if (activeTrack && !isTimerStarted) {
+            return musicPlayer.pause();
+        }
+        if (!activeTrack && isTimerStarted) {
+            musicPlayer.startTrack(musicPlayer.tracks[0].id)
+        }
+    }, [isTimerStarted])
 
     function getDisplayValue() {
         return <>
