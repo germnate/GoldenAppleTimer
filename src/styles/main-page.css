@@ -180,6 +180,11 @@ header {
     background-color: rgba(var(--base-primary-color), 0.2);
 }
 
+.active-song-player-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .animate-button {
     transition: transform 100ms;
 }

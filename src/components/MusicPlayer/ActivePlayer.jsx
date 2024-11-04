@@ -23,7 +23,7 @@ export function ActivePlayer({ musicPlayer }) {
     return (
         <div className={`active-song-player music-row active${musicPlayer.getActiveTrack() ? '' : ' invisible'}`} onClick={activeSongClickHandler}>
             <img src={musicPlayer.getActiveTrack()?.paused || musicPlayer.getIsFinished() ? play : pause} height={30} width={30} />
-            <span>{musicPlayer.getActiveTrack()?.file?.name}</span>
+            <span className='active-song-player-name'>{musicPlayer.getActiveTrack()?.file?.name}</span>
             <span>{`${displayTime(musicPlayer.currentTime)}/${displayTime(musicPlayer.duration)}`}</span>
             <Slider
                 duration={musicPlayer.slider.duration}
