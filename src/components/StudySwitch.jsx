@@ -9,6 +9,7 @@ export function StudySwitch({ studyStatus, setStudyStatus, reset }) {
     function handleClick(name) {
         return function () {
             setStudyStatus(name);
+            if (studyStatus === name) return;
             reset(name);
         }
     }
