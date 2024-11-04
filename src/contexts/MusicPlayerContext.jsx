@@ -151,6 +151,7 @@ export function MusicPlayerProvider({ children }) {
                 setBreakFile,
                 startBreakTrack,
                 pauseBreakTrack,
+                breakTrack,
                 currentTime,
                 duration,
                 getIsFinished,
