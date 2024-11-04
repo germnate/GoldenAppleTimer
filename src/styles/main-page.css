@@ -124,22 +124,26 @@ header {
     width: 100%;
 }
 
-.fileInput-container {
+.fileInput-container,
+.breakInput-container {
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
     margin-right: 2rem;
 }
 
-.fileInput-container label {
+.fileInput-container label,
+.breakInput-container label {
     cursor: pointer;
 }
 
-.fileInput-container label:hover {
+.fileInput-container label:hover,
+.breakInput-container label:hover {
     text-decoration: underline;
 }
 
-#fileInput {
+#fileInput,
+#breakInput {
     display: none;
 }
 

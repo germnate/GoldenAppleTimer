@@ -11,23 +11,20 @@ export function MusicPlayer() {
         musicPlayer.setFiles(e.target.files || [])
     }
 
+    function onChangeBreakFile(e) {
+        musicPlayer.setBreakFile(e.target.files[0] || null)
+    }
+
     function onPlay(id) {
         musicPlayer.startTrack(id);
     }
 
-    function activeSongClickHandler() {
-        const activeTrack = musicPlayer.getActiveTrack();
-        if (!activeTrack) return;
-        if (musicPlayer.getIsFinished()) return musicPlayer.startTrack(activeTrack.id);
-        if (activeTrack.paused) {
-            return musicPlayer.unpause();
-        }
-        return musicPlayer.pause();
-
-    }
-
     return (
         <div className='music-container'>
+            <div className='breakInput-container'>
+                <label htmlFor='breakInput'>Add Break Track</label>
+                <input type='file' id='breakInput' accept='audio/*' onChange={onChangeBreakFile} />
+            </div>
             <div className='fileInput-container'>
                 <label htmlFor='fileInput'>Add Media</label>
                 <input type='file' id='fileInput' accept='audio/*' multiple onChange={onChangeFile} />

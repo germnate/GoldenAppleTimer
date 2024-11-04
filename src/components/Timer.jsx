@@ -11,8 +11,11 @@ export function Timer(props) {
         const activeTrack = musicPlayer.getActiveTrack();
         if (timer.studyStatus !== STATUSES.study) {
             if (!activeTrack) return;
+            musicPlayer.startBreakTrack();
             return musicPlayer.pause();
         }
+        console.log('in study status')
+        musicPlayer.pauseBreakTrack();
         if (activeTrack && isTimerStarted) {
             return musicPlayer.unpause();
         }

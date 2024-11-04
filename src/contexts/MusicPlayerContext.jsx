@@ -11,10 +11,12 @@ export const MusicPlayerContext = createContext();
 
 export function MusicPlayerProvider({ children }) {
     const [tracks, setTracks] = useState([]);
+    const [breakTrack, setBreakTrack] = useState(null)
     const [currentTime, setCurrentTime] = useState([])
     const [duration, setDuration] = useState([])
     const [slider, setSlider] = useState({ time: 0, duration: 0 })
     const audioRef = useRef()
+    const audioBreakRef = useRef()
 
     useEffect(() => {
         // when changing from not finished to finished
@@ -51,6 +53,16 @@ export function MusicPlayerProvider({ children }) {
         }))
     }
 
+    function setBreakFile(file) {
+        console.log(file);
+        return setBreakTrack({
+            file,
+            url: URL.createObjectURL(file),
+            playing: false,
+            paused: false,
+        })
+    }
+
     function startTrack(id) {
         const track = tracks.find(track => track.id === id)
         if (!track) {
@@ -65,6 +77,20 @@ export function MusicPlayerProvider({ children }) {
             })
         })
         audioRef.current.play();
+    }
+
+    function startBreakTrack() {
+        if (!breakTrack) {
+            return console.error('No break Track')
+        }
+        audioBreakRef.current.src = breakTrack.url
+        setBreakTrack(prev => ({ ...prev, paused: false, playing: true }))
+        audioBreakRef.current.play();
+    }
+
+    function pauseBreakTrack() {
+        audioBreakRef.current.pause();
+        setBreakTrack(prev => ({ ...prev, paused: true, playing: true }))
     }
 
     function getActiveTrack() {
@@ -122,6 +148,9 @@ export function MusicPlayerProvider({ children }) {
                 getActiveTrack,
                 setFiles,
                 tracks,
+                setBreakFile,
+                startBreakTrack,
+                pauseBreakTrack,
                 currentTime,
                 duration,
                 getIsFinished,
@@ -135,6 +164,10 @@ export function MusicPlayerProvider({ children }) {
                 ref={audioRef}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetaData}
+            >
+            </audio>
+            <audio
+                ref={audioBreakRef}
             >
 
             </audio>
