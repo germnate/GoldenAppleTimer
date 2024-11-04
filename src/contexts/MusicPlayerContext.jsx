@@ -1,4 +1,4 @@
-import { createContext, useState, useRef } from "react";
+import { createContext, useState, useRef, useEffect } from "react";
 import { v4 as uuid } from 'uuid'
 
 function formatSeconds(totalSeconds) {
@@ -15,6 +15,13 @@ export function MusicPlayerProvider({ children }) {
     const [duration, setDuration] = useState([])
     const [slider, setSlider] = useState({ time: 0, duration: 0 })
     const audioRef = useRef()
+
+    useEffect(() => {
+        // when changing from not finished to finished
+        if (getIsFinished()) {
+            startTrack(getNextTrack().id)
+        }
+    }, [getIsFinished()])
 
     function handleTimeUpdate() {
         const time = formatSeconds(audioRef.current.currentTime)
@@ -62,6 +69,12 @@ export function MusicPlayerProvider({ children }) {
 
     function getActiveTrack() {
         return tracks.find(each => each.playing)
+    }
+
+    function getNextTrack() {
+        const index = tracks.findIndex(each => each.playing)
+        if (index < tracks.length - 1) return tracks[index + 1];
+        return tracks[0];
     }
 
     function pause() {
