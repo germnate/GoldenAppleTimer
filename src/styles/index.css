@@ -38,6 +38,10 @@ input {
     border: none;
 }
 
+input[type='range'] {
+    padding: 0;
+}
+
 button {
     border-radius: 8px;
     border: 1px solid var(--primary-color);

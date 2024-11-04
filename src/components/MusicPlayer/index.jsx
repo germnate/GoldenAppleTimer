@@ -40,6 +40,13 @@ export function MusicPlayer() {
                 <img src={musicPlayer.getActiveTrack()?.paused || musicPlayer.getIsFinished() ? play : pause} height={30} width={30} />
                 <span>{musicPlayer.getActiveTrack()?.file?.name}</span>
                 <span>{`${displayTime(musicPlayer.currentTime)}/${displayTime(musicPlayer.duration)}`}</span>
+                <input
+                    type="range"
+                    min='0'
+                    max={musicPlayer.slider.duration}
+                    value={musicPlayer.slider.time}
+                    onChange={musicPlayer.handleSlider}
+                />
             </div>
             <div className='music-list'>
                 {musicPlayer.tracks.map(track => {

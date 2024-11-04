@@ -13,6 +13,7 @@ export function MusicPlayerProvider({ children }) {
     const [tracks, setTracks] = useState([]);
     const [currentTime, setCurrentTime] = useState([])
     const [duration, setDuration] = useState([])
+    const [slider, setSlider] = useState({ time: 0, duration: 0 })
     const audioRef = useRef()
 
     function handleTimeUpdate() {
@@ -20,11 +21,13 @@ export function MusicPlayerProvider({ children }) {
         if (time.minutes >= duration.minutes && time.seconds > duration.seconds) {
             return setCurrentTime(duration);
         }
+        setSlider(prev => ({ ...prev, time: audioRef.current.currentTime }))
         setCurrentTime(time)
     }
 
     function handleLoadedMetaData() {
         const time = formatSeconds(audioRef.current.duration)
+        setSlider(prev => ({ time: 0, duration: audioRef.current.duration }))
         setDuration(time)
     }
 
@@ -92,6 +95,11 @@ export function MusicPlayerProvider({ children }) {
             currentTime.seconds >= duration.seconds
     }
 
+    function handleSlider(e) {
+        const newTime = e.target.value;
+        audioRef.current.currentTime = newTime;
+    }
+
     return (
         <MusicPlayerContext.Provider value={{
             musicPlayer: {
@@ -105,6 +113,8 @@ export function MusicPlayerProvider({ children }) {
                 duration,
                 getIsFinished,
                 seekTime,
+                slider,
+                handleSlider,
             }
         }}>
             {children}
