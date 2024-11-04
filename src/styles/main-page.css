@@ -83,6 +83,7 @@ header {
     width: 100%;
     box-shadow: 0 0px 8px 3px var(--primary-color);
     gap: 2rem;
+    transition: all 0.5s linear;
 }
 
 .music-container {

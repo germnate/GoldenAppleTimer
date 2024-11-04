@@ -21,6 +21,8 @@ body {
     background-color: var(--secondary-color);
     --primary-color: rgb(var(--base-primary-color));
     color: var(--primary-color);
+    --break-color: rgb(75, 113, 236);
+    --long-break-color: rgb(114, 201, 73);
 }
 
 h1,
