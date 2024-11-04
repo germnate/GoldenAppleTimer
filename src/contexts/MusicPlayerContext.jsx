@@ -1,11 +1,32 @@
 import { createContext, useState, useRef } from "react";
 import { v4 as uuid } from 'uuid'
 
+function formatSeconds(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds - (minutes * 60))
+    return { minutes, seconds }
+}
+
 export const MusicPlayerContext = createContext();
 
 export function MusicPlayerProvider({ children }) {
     const [tracks, setTracks] = useState([]);
+    const [currentTime, setCurrentTime] = useState([])
+    const [duration, setDuration] = useState([])
     const audioRef = useRef()
+
+    function handleTimeUpdate() {
+        const time = formatSeconds(audioRef.current.currentTime)
+        if (time.minutes >= duration.minutes && time.seconds > duration.seconds) {
+            return setCurrentTime(duration);
+        }
+        setCurrentTime(time)
+    }
+
+    function handleLoadedMetaData() {
+        const time = formatSeconds(audioRef.current.duration)
+        setDuration(time)
+    }
 
     function setFiles(files) {
         if (!files?.length) return [];
@@ -60,6 +81,17 @@ export function MusicPlayerProvider({ children }) {
         audioRef.current.play();
     }
 
+    function seekTime(seconds) {
+        audioRef.current.currentTime = seconds;
+        setCurrentTime(formatSeconds(seconds));
+    }
+
+    function getIsFinished() {
+        return (currentTime.seconds > 0 || currentTime.minutes > 0) &&
+            currentTime.minutes >= duration.minutes &&
+            currentTime.seconds >= duration.seconds
+    }
+
     return (
         <MusicPlayerContext.Provider value={{
             musicPlayer: {
@@ -69,10 +101,20 @@ export function MusicPlayerProvider({ children }) {
                 getActiveTrack,
                 setFiles,
                 tracks,
+                currentTime,
+                duration,
+                getIsFinished,
+                seekTime,
             }
         }}>
             {children}
-            <audio ref={audioRef}></audio>
+            <audio
+                ref={audioRef}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetaData}
+            >
+
+            </audio>
         </MusicPlayerContext.Provider>
     )
 }

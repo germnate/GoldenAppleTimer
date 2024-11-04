@@ -143,6 +143,12 @@ header {
     display: none;
 }
 
+.active-song-player {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .music-list {
     margin: 3rem 0;
 }
