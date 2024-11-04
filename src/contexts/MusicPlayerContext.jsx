@@ -70,6 +70,7 @@ export function MusicPlayerProvider({ children }) {
             return;
         }
         audioRef.current.src = track.url;
+        pauseBreakTrack();
         setTracks(prevTracks => {
             return prevTracks.map(old => {
                 if (old.id !== id) return { ...old, playing: false }
@@ -90,7 +91,7 @@ export function MusicPlayerProvider({ children }) {
 
     function pauseBreakTrack() {
         audioBreakRef.current.pause();
-        setBreakTrack(prev => ({ ...prev, paused: true, playing: true }))
+        setBreakTrack(prev => ({ ...prev, paused: true, playing: false }))
     }
 
     function getActiveTrack() {
@@ -114,6 +115,7 @@ export function MusicPlayerProvider({ children }) {
     }
 
     function unpause() {
+        pauseBreakTrack();
         setTracks(prevTracks => {
             return prevTracks.map(old => {
                 if (!old.playing) return { ...old, paused: false }

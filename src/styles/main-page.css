@@ -142,12 +142,24 @@ header {
     display: none;
 }
 
-.active-song-player {
+.active-song-player,
+.active-break-song-player {
     display: flex;
     position: relative;
     justify-content: space-between;
     align-items: center;
 
+}
+
+.break-name-display {
+    outline: 1px solid var(--break-color);
+    padding: 0.5rem 1rem;
+}
+
+.break-name-display span {
+    color: var(--break-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .media-time-slider {
@@ -176,7 +188,8 @@ header {
 }
 
 .music-row.active {
-    outline: 1px solid var(--primary-color);
+    color: rgba(var(--base-primary-color));
+    outline: 1px solid rgba(var(--base-primary-color));
     background-color: rgba(var(--base-primary-color), 0.2);
 }
 

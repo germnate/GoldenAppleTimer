@@ -6,16 +6,14 @@ export function Timer(props) {
     const { timer, setStudyStatus, isTimerStarted, reset, start, pause } = useTimer();
     const { musicPlayer } = useMusicPlayer();
 
-    // manages whether to play study track or break track
+    // manages whether to start or stop study track
     useEffect(() => {
         if (!musicPlayer.tracks?.length) return;
         const activeTrack = musicPlayer.getActiveTrack();
         if (timer.studyStatus !== STATUSES.study) {
             if (!activeTrack) return;
-            musicPlayer.startBreakTrack();
             return musicPlayer.pause();
         }
-        musicPlayer.pauseBreakTrack();
         if (activeTrack && isTimerStarted) {
             return musicPlayer.unpause();
         }
@@ -27,10 +25,16 @@ export function Timer(props) {
         }
     }, [isTimerStarted, timer.studyStatus])
 
+    //manages whether to start or stop break track
     useEffect(() => {
-        if (timer.studyStatus === STATUSES.study) {
-
+        if (isTimerStarted && timer.studyStatus !== STATUSES.study) {
+            return musicPlayer.startBreakTrack();
         }
+        musicPlayer.pauseBreakTrack();
+
+    }, [isTimerStarted, timer.studyStatus])
+
+    useEffect(() => {
         switch (timer.studyStatus) {
             case STATUSES.study:
                 return document.body.style.setProperty('--primary-color', 'rgb(var(--base-primary-color))');
