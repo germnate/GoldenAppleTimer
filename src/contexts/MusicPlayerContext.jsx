@@ -1,5 +1,6 @@
 import { createContext, useState, useRef, useEffect } from "react";
 import { v4 as uuid } from 'uuid'
+import elevatorMusic from '../assets/bossa-for-love.mp3'
 
 function formatSeconds(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
@@ -11,7 +12,12 @@ export const MusicPlayerContext = createContext();
 
 export function MusicPlayerProvider({ children }) {
     const [tracks, setTracks] = useState([]);
-    const [breakTrack, setBreakTrack] = useState(null)
+    const [breakTrack, setBreakTrack] = useState({
+        file: { name: 'Bossa For Love' },
+        url: elevatorMusic,
+        playing: false,
+        paused: false,
+    })
     const [currentTime, setCurrentTime] = useState([])
     const [duration, setDuration] = useState([])
     const [slider, setSlider] = useState({ time: 0, duration: 0 })
