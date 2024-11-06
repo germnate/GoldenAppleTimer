@@ -97,7 +97,9 @@ export function TaskManager() {
 
     return (
         <div className='task-manager'>
-            <button className='subtle-btn clear-completed' onClick={clearCompleted}>Clear Completed</button>
+            <div className='clear-completed-container'>
+                <button className='subtle-btn clear-completed' onClick={clearCompleted}>Clear Completed</button>
+            </div>
             {tasksState.tasks.map((task, index) => {
                 return index === tasksState.editingIndex
                     ? <EditTask
