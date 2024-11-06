@@ -48,7 +48,6 @@ export function Task({ task, edit, setActive, toggleChecked, setDraggingIndex, s
 
     function onSetActive(e) {
         if (e.target === checkBoxRef.current) return;
-        console.log('set active')
         setActive(task.id)
     }
 

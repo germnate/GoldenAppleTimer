@@ -9,7 +9,6 @@ export function Settings({ close }) {
     const [longBreakMinutes, setLongBreakMinutes] = useState(preferences.longBreakTimer?.minutes || DEFAULT_TIMERS.longBreak.minutes);
 
     useEffect(() => {
-        console.log(preferences)
         setStudyMinutes(preferences.studyTimer?.minutes || DEFAULT_TIMERS.study.minutes)
         setBreakMinutes(preferences.breakTimer?.minutes || DEFAULT_TIMERS.break.minutes)
         setLongBreakMinutes(preferences.longBreakTimer?.minutes || DEFAULT_TIMERS.longBreak.minutes)

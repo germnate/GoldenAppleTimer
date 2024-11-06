@@ -54,7 +54,6 @@ export function MusicPlayerProvider({ children }) {
     }
 
     function setBreakFile(file) {
-        console.log(file);
         return setBreakTrack({
             file,
             url: URL.createObjectURL(file),

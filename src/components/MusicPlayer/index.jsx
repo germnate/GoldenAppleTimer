@@ -2,8 +2,6 @@ import { useMusicPlayer } from "../../hooks";
 import coffee from '../../assets/ic--twotone-free-breakfast.svg'
 import musicFolder from '../../assets/streamline--music-folder-song.svg'
 import { ActivePlayer } from "./ActivePlayer";
-import play from '../../assets/play-svgrepo-com.svg'
-import pause from '../../assets/pause-svgrepo-com.svg'
 
 export function MusicPlayer() {
     const { musicPlayer } = useMusicPlayer();
