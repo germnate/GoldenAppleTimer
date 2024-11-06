@@ -6,8 +6,8 @@ export function Header({ onClickTask, onClickGear }) {
         <header>
             <h1>Golden Apple Timer</h1>
             <div className='actions'>
-                <button onClick={onClickTask}><img src={task} /></button>
-                <button onClick={onClickGear}><img src={gear} /></button>
+                <button id='tasks-button' onClick={onClickTask}><img src={task} /></button>
+                <button id='settings-button' onClick={onClickGear}><img src={gear} /></button>
             </div>
         </header>
     )
