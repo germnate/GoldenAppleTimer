@@ -47,16 +47,6 @@ function App() {
     })
   }
 
-  function onChangeFile(e) {
-    setFiles(() => {
-      const f = e.target.files
-      if (!f?.length) return;
-      return [...f].map(each => {
-        return { file: each, url: URL.createObjectURL(each) }
-      })
-    })
-  }
-
   return (
     <SettingsProvider>
       <TimerProvider>
