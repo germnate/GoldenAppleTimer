@@ -28,10 +28,10 @@ export function MusicPlayer() {
                 <label htmlFor='fileInput'><img src={musicFolder} height={40} width={40} alt='music folder' title='New Playlist' /></label>
                 <input type='file' id='fileInput' accept='audio/*' multiple onChange={onChangeFile} />
             </div>
-            <div className='active-break-song-player break-name-display music-row'>
-                <img src={musicPlayer.breakTrack?.paused ? play : pause} height={30} width={30} />
+            {musicPlayer.breakTrack?.file?.name ? <div className='active-break-song-player break-name-display music-row'>
+                <span>This track will play for your breaks:</span>
                 <span>{musicPlayer.breakTrack?.file?.name}</span>
-            </div>
+            </div> : null}
             <ActivePlayer musicPlayer={musicPlayer} />
             <div className='music-list'>
                 {musicPlayer.tracks.map(track => {
