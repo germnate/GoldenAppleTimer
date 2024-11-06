@@ -14,7 +14,8 @@
 }
 
 .task,
-.edit-task {
+.edit-task,
+.display-active-task {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -23,6 +24,26 @@
     margin-bottom: 0.5rem;
     padding: 0.3rem 1rem;
     box-shadow: -5px 0 0px 1px black;
+}
+
+.display-active-task {
+    overflow: hidden;
+    align-self: center;
+    margin: 0 2rem;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--primary-color);
+    width: fit-content;
+    max-width: 75%;
+
+}
+
+.display-active-task span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--primary-color)
 }
 
 .add-task {

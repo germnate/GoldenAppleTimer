@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { STATUSES, StudySwitch } from "./StudySwitch";
 import { useMusicPlayer, useTimer } from "../hooks";
 import click from '../assets/button-click.mp3'
+import { ActiveTask } from "./ActiveTask";
 
 export function Timer(props) {
     const { timer, setStudyStatus, isTimerStarted, reset, start, pause } = useTimer();
@@ -99,6 +100,7 @@ export function Timer(props) {
                     reset={reset}
                 />
             </div>
+            <ActiveTask />
         </div>
     )
 }

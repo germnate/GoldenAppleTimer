@@ -70,6 +70,10 @@ export function TaskProvider({ children }) {
         })
     }
 
+    function getActive() {
+        return tasksState.tasks.find(each => each.active)
+    }
+
     function edit(index) {
         setTasksState({ ...tasksState, editingIndex: index })
     }
@@ -103,6 +107,7 @@ export function TaskProvider({ children }) {
                 saveToLocalStorage,
                 tasksState,
                 setTasksState,
+                getActive
             }
         }}>
             {children}
