@@ -173,6 +173,10 @@ header {
     margin: 3rem 0;
 }
 
+.music-list .music-row {
+    cursor: pointer;
+}
+
 .music-row:nth-child(odd) {
     background-color: rgba(222, 222, 222, 0.15);
 }
