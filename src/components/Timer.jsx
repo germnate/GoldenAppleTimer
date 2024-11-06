@@ -29,6 +29,7 @@ export function Timer(props) {
 
     //manages whether to start or stop break track
     useEffect(() => {
+        if (!musicPlayer.breakTrack?.file) return;
         if (isTimerStarted && timer.studyStatus !== STATUSES.study) {
             return musicPlayer.startBreakTrack();
         }
