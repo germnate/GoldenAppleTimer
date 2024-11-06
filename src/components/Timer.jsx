@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { STATUSES, StudySwitch } from "./StudySwitch";
 import { useMusicPlayer, useTimer } from "../hooks";
 import click from '../assets/button-click.mp3'
@@ -6,7 +6,6 @@ import click from '../assets/button-click.mp3'
 export function Timer(props) {
     const { timer, setStudyStatus, isTimerStarted, reset, start, pause } = useTimer();
     const { musicPlayer } = useMusicPlayer();
-    const audioClickRef = useRef();
 
     // manages whether to start or stop study track
     useEffect(() => {
@@ -68,8 +67,8 @@ export function Timer(props) {
     }
 
     function playClickSound() {
-        audioClickRef.current.currentTime = 0;
-        audioClickRef.current.play();
+        const clickSound = new Audio(click);
+        clickSound.play();
     }
 
     function onClickReset() {
@@ -100,7 +99,6 @@ export function Timer(props) {
                     reset={reset}
                 />
             </div>
-            <audio ref={audioClickRef} src={click}></audio>
         </div>
     )
 }

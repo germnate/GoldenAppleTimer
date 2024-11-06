@@ -2,6 +2,7 @@ import { createContext, useReducer, useEffect, useRef } from "react";
 import { STATUSES } from "../components/StudySwitch";
 import { useSettings } from "../hooks";
 import bell from '../assets/bell.mp3'
+const bellSound = new Audio(bell);
 
 export const TimerContext = createContext();
 
@@ -65,7 +66,6 @@ function reducer(state, action) {
 export function TimerProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
     const { preferences } = useSettings();
-    const audioBellRef = useRef();
     const isTimerStarted = !!state.interval
 
     useEffect(() => {
@@ -92,14 +92,12 @@ export function TimerProvider({ children }) {
     }
 
     function start() {
-        console.log('START!', state)
         if (!state.studyStatus) dispatch({ type: 'STUDY_STATUS', studyStatus: STATUSES.study })
         let min = state.activeTimer.minutes;
         let sec = state.activeTimer.seconds;
         const interval = setInterval(() => {
             if (min === 0 && sec === 0) {
-                audioBellRef.current.currentTime = 0;
-                audioBellRef.current.play();
+                bellSound.play();
                 return dispatch({ type: 'NEXT', getTime })
             }
             sec = sec - 1;
@@ -141,7 +139,6 @@ export function TimerProvider({ children }) {
             setActiveTimer,
         }}>
             {children}
-            <audio ref={audioBellRef} src={bell}></audio>
         </TimerContext.Provider>
     )
 }
