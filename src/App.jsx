@@ -11,15 +11,21 @@ import { TaskManager } from './components/TaskManager'
 import { Settings } from './components/Settings'
 import { MusicPlayer } from './components/MusicPlayer'
 import { Provider } from './contexts'
+import { html } from '../README.md'
 
 function App() {
   const [tasksOpen, setTasksOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [timers, setTimers] = useState({
     studyTime: { minutes: 30, seconds: 0 },
     breakTime: { minutes: 5, seconds: 0 },
     longBreakTime: { minutes: 15, seconds: 0 },
   })
+
+  function onClickAbout() {
+    setAboutOpen(true);
+  }
 
   function onClickTask() {
     setTasksOpen(true);
@@ -37,6 +43,10 @@ function App() {
     setSettingsOpen(false);
   }
 
+  function closeAbout() {
+    setAboutOpen(false);
+  }
+
   function saveSettings(settingsObj) {
     setTimers({
       studyTime: { minutes: settingsObj.studyMinutes, seconds: 0 },
@@ -45,10 +55,15 @@ function App() {
     })
   }
 
+  function renderMarkdown() {
+    const markup = { __html: html };
+    return <div className='markdown' dangerouslySetInnerHTML={markup} />;
+  }
+
   return (
     <Provider>
       <div className='container'>
-        <Header onClickTask={onClickTask} onClickGear={onClickGear} />
+        <Header onClickAbout={onClickAbout} onClickTask={onClickTask} onClickGear={onClickGear} />
         <main>
           <Timer studyTime={timers.studyTime} breakTime={timers.breakTime} longBreakTime={timers.longBreakTime} />
           <MusicPlayer />
@@ -60,6 +75,9 @@ function App() {
           <Settings save={saveSettings} close={closeSettings} />
         </Modal>
       </div>
+      <Modal isOpen={aboutOpen} close={closeAbout} header='About'>
+        {renderMarkdown()}
+      </Modal>
     </Provider>
   )
 }

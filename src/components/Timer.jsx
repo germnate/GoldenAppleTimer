@@ -42,19 +42,23 @@ export function Timer(props) {
             case STATUSES.study:
                 document.querySelector('#tasks-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
                 document.querySelector('#settings-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
+                document.querySelector('#about-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
                 return document.body.style.setProperty('--primary-color', 'rgb(var(--base-primary-color))')
             case STATUSES.break:
                 document.querySelector('#tasks-button > img').style.setProperty('filter', 'invert(43%) sepia(88%) saturate(2752%) hue-rotate(212deg) brightness(94%) contrast(98%)')
                 document.querySelector('#settings-button > img').style.setProperty('filter', 'invert(43%) sepia(88%) saturate(2752%) hue-rotate(212deg) brightness(94%) contrast(98%)')
+                document.querySelector('#about-button > img').style.setProperty('filter', 'invert(43%) sepia(88%) saturate(2752%) hue-rotate(212deg) brightness(94%) contrast(98%)')
                 return document.body.style.setProperty('--primary-color', 'var(--break-color)')
             case STATUSES.longBreak:
                 document.querySelector('#tasks-button > img').style.setProperty('filter', 'invert(65%) sepia(73%) saturate(380%) hue-rotate(57deg) brightness(94%) contrast(88%)')
                 document.querySelector('#settings-button > img').style.setProperty('filter', 'invert(65%) sepia(73%) saturate(380%) hue-rotate(57deg) brightness(94%) contrast(88%)')
+                document.querySelector('#about-button > img').style.setProperty('filter', 'invert(65%) sepia(73%) saturate(380%) hue-rotate(57deg) brightness(94%) contrast(88%)')
 
                 return document.body.style.setProperty('--primary-color', 'var(--long-break-color)')
             default:
                 document.querySelector('#tasks-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
                 document.querySelector('#settings-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
+                document.querySelector('#about-button > img').style.setProperty('filter', 'invert(77%) sepia(57%) saturate(542%) hue-rotate(3deg) brightness(93%) contrast(89%)')
                 return document.body.style.setProperty('--primary-color', 'rgb(var(--base-primary-color))');
         }
     }, [timer.studyStatus])
